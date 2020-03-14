@@ -28,46 +28,56 @@ while True:
         ball.dy *= -1
     
 turtle.mainloop()
-"""
 
+"""
 class Human(Turtle):
-    def __init__(self, dimensions):
+    def __init__(self):
         super(Human, self).__init__()
-        self.dimensions = dimensions
-        self.x = random.randint(0, dimensions+1)
-        self.y = random.randint(0, dimensions+1)
+        #self.x = random.randint(0, dimensions+1)
+        #self.y = random.randint(0, dimensions+1)
         #self.goto(self.x, self.y)
-        self.speed_x = random.randint(-1,2)
-        self.speed_y = random.randint(-1,2)
+        self.dx = 0
+        self.dy = 0
+        self.count = 0
                 
     def accelerate(self):
-        self.speed_x += random.randint(-1,2)
-        self.speed_y += random.randint(-1,2)
+        self.dy += random.randint(-1,2) * 2
+        self.dx += random.randint(-1,2) * 2
         
     def move(self):
+        #self.accelerate()
+        #self.x += self.speed_x
+        #self.y += self.speed_y
+        self.sety(self.ycor() + self.dy)
+        self.setx(self.xcor() + self.dx)
         self.accelerate()
-        self.x += self.speed_x
-        self.y += self.speed_y
-        self.setx(self.x)
-        self.sety(self.y)
-        #self.check_edge()
+        self.check_edge()
         
     def check_edge(self):
-        if self.xcor() <= 0 or self.xcor() >= self.dimensions:
-            self.speed_x *= -1
-        if self.ycor() <= 0 or self.ycor() >= self.dimensions:
-            self.speed_y *= -1
-            
-            
-ball = Human(200)
-ball.shape('circle')
-ball.color('red')
-ball.penup()
-ball.speed(-5)
-"""ball.goto(0,200)
-ball.dy = 0
-gravity = 0.1"""
+        if self.ycor() < -300 or self.ycor() > 300:
+            self.dy *= -1
+        if self.xcor() < -300 or self.xcor() > 300:
+            self.dx *= -1
+
+balls = [Human() for i in range(3)]
+window = turtle.Screen()
+
+for ball in balls:
+    ball.shape('circle')
+    ball.color('red')
+    ball.penup()
+    ball.speed(0)
+    #ball.goto(0,200)
+    #ball.dy = 0
+    #gravity = 0.1
+
 while True:
-    ball.move()
-    
-turtle.mainloop()
+    for ball in balls:
+        ball.move()
+
+turtle.exitonclick()
+"""while True:
+    ball.dy -= gravity
+    ball.sety(ball.ycor() + ball.dy)
+    if ball.ycor() < -300:
+        ball.dy *= -1"""
