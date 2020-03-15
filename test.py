@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+
+
+#Comentari andreu per veure el commit
 import numpy as np
 import numpy.random as random
 import math
@@ -8,6 +12,8 @@ from turtle import Turtle
 from itertools import combinations
 """
 Created on Fri Mar 13 14:13:42 2020
+
+
 
 @author: guillemguigoicorominas
 """
