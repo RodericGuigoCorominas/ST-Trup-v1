@@ -25,6 +25,7 @@ class Human(Turtle):
         self.shape('circle')
         self.setcolor()
         self.speed(0)
+        self.healed = False
     
     def accelerate(self):
         self.dy += random.randint(-1,2) * 0.1
@@ -60,7 +61,8 @@ class Human(Turtle):
     
     def heal(self):
         self.infected = False
-        self.color('green')
+        self.healed = True
+        self.color('purple')
     
     def check_kill(self):
         if self.infected and random.rand() < self.killing_ratio * 0.001:
@@ -74,7 +76,7 @@ class Human(Turtle):
             self.color('red')
     
     def infect(self):
-        if random.rand() < self.infection_ratio:
+        if self.healed == False and random.rand() < self.infection_ratio:
             self.infected = True
             self.color('red')
 
@@ -93,8 +95,8 @@ def ball_collision(ball_1, ball_2):
 window = turtle.Screen()
 window.tracer(0)
 
-balls = [Human(0.5,0.5,0.5) for i in range(20)]
-balls.append(Human(0.5,0.01,0.5,True))
+balls = [Human(0.5,0.5,0.5) for i in range(30)]
+balls.append(Human(0.5,0.01,0.1,True))
 global_position = [[ball.xcor(), ball.ycor()] for ball in balls]
 
 while True:
