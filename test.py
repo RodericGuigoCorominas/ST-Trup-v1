@@ -26,7 +26,8 @@ class Human(Turtle):
         self.setcolor()
         self.speed(0)
         self.healed = False
-    
+        self.recent_interactions = []
+
     def accelerate(self):
         self.dy += random.randint(-1,2) * 0.1
         self.dx += random.randint(-1,2) * 0.1
@@ -80,7 +81,11 @@ class Human(Turtle):
             self.infected = True
             self.color('red')
 
-def ball_collision(ball_1, ball_2):        
+def ball_collision(ball_1, ball_2):
+
+    if ball_1 in ball_2.recent_interactions:
+        return
+
     v1 = np.array([ball_1.dx, ball_1.dy])
     p1 = np.array([ball_1.xcor(), ball_1.ycor()])
     v2 = np.array([ball_2.dx, ball_2.dy])
@@ -90,7 +95,9 @@ def ball_collision(ball_1, ball_2):
     ball_1.dy = v1[1] - np.inner(v1 - v2, p1 - p2)/np.inner(p1 - p2, p1 - p2) * (p1[1] - p2[1])
     ball_2.dx = v2[0] - np.inner(v2 - v1, p2 - p1)/np.inner(p1 - p2, p1 - p2) * (p2[0] - p1[0])
     ball_2.dy = v2[1] - np.inner(v2 - v1, p2 - p1)/np.inner(p1 - p2, p1 - p2) * (p2[1] - p1[1])
-
+    
+    ball_1.recent_interactions += [ball_2]
+    ball_2.recent_interactions += [ball_1]
     
 window = turtle.Screen()
 window.tracer(0)
@@ -98,6 +105,7 @@ window.tracer(0)
 balls = [Human(0.5,0.5,0.5) for i in range(30)]
 balls.append(Human(0.5,0.01,0.1,True))
 global_position = [[ball.xcor(), ball.ycor()] for ball in balls]
+count = 0
 
 while True:
     window.update()
@@ -115,6 +123,9 @@ while True:
                 ball_1.infect()
             
             ball_collision(ball_1,ball_2)
-            
+    count += 1
+    if count%5 == 0:
+        for ball in balls:
+            ball.recent_interactions = []
 turtle.exitonclick()
 
