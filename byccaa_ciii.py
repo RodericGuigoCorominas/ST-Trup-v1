@@ -7,7 +7,7 @@ from datetime import date
 
 #date format
 def to_ymd (date):
-    return '-'.join(date.split("/")[::-1])
+    return '-'.join([x if (len(x)>1) else '0' + x for x in date.split('/')][::-1])
 
 #download and save and clean
 url = 'https://covid19.isciii.es/resources/serie_historica_acumulados.csv'
