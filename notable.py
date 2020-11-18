@@ -43,6 +43,12 @@ class DeathsByMonth:
                 self.ycovid += [cov]
                 if date == [2020,self.month,days_in(self.month)]:
                     break
+                    
+        #had to add a patch for the month of August (see wiki page)
+        if month == 'August':
+            self.ycovid = self.ycovid[:4] + self.ycovid[5:]
+            self.ydeaths = self.ydeaths[:4] + self.ydeaths[5:]
+                    
     def plot_summary(self, save = False):
         plt.figure(figsize=(15,15))
         plt.subplot(2, 1, 1)
